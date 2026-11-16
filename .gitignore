@@ -26,3 +26,6 @@ pnpm-debug.log*
 .DS_Store
 Thumbs.db
 .gitleaks/
+
+staff-management-antigravity-master-prompt.md
+*.tsbuildinfo
