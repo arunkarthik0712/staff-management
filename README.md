@@ -4,7 +4,7 @@ A Staff Management System developed for the BCA Department of Bishop Heber Colle
 
 ## Live Application
 
-**[Open Staff Management System](https://staff-management-system-arun-karthiks-projects-27b07dca.vercel.app/)**
+**[Open Staff Management System](https://erpbhc.vercel.app/)**
 
 ## Project Overview
 
