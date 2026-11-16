@@ -2,11 +2,13 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import FluentNavLink from "./FluentNavLink";
 
 export default function HomeNav() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <>
@@ -33,7 +35,11 @@ export default function HomeNav() {
         <div className="hidden md:flex items-center gap-4">
           <Link
             href="/login"
-            className="text-xs font-semibold px-4 py-2 rounded-md bg-white/20 hover:bg-white/30 text-white transition-colors"
+            className={`text-xs font-semibold px-4 py-2 rounded-md transition-colors ${
+              pathname === "/login"
+                ? "bg-white/30 text-white shadow-xs border border-white/30"
+                : "bg-white/20 hover:bg-white/30 text-white border border-white/15"
+            }`}
           >
             Staff Login
           </Link>
@@ -52,12 +58,12 @@ export default function HomeNav() {
           </h2>
           <nav className="flex flex-col gap-2.5">
             <div onClick={() => setMobileOpen(false)}>
-              <FluentNavLink href="/" active>
+              <FluentNavLink href="/" active={pathname === "/"}>
                 Staff Details
               </FluentNavLink>
             </div>
             <div onClick={() => setMobileOpen(false)}>
-              <FluentNavLink href="/login">
+              <FluentNavLink href="/login" active={pathname === "/login"}>
                 Login
               </FluentNavLink>
             </div>

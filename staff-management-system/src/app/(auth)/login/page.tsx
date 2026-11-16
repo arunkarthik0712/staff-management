@@ -3,7 +3,8 @@
 import React, { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
+import HomeNav from "@/components/HomeNav";
+import { Lock, Mail, ArrowRight } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -37,88 +38,87 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#2b88d8] text-white flex flex-col md:flex-row font-sans">
-      {/* Sidebar matching PHP login page */}
-      <aside className="w-full md:w-64 bg-white/10 backdrop-blur-md border-r border-white/20 p-6 flex flex-col gap-6">
-        <div className="pt-6">
-          <h2 className="text-xl font-bold tracking-tight text-white mb-8">
-            <Link href="/" className="hover:text-blue-100">
-              Department of BCA
-            </Link>
-          </h2>
-          <nav className="flex flex-col gap-4 text-base font-medium">
-            <Link
-              href="/"
-              className="text-white/80 hover:text-white transition-colors py-2 px-3 rounded-lg hover:bg-white/10"
-            >
-              Staff Details
-            </Link>
-            <Link
-              href="/login"
-              className="text-white hover:text-blue-100 transition-colors py-2 px-3 rounded-lg bg-white/15"
-            >
-              Login
-            </Link>
-          </nav>
-        </div>
-      </aside>
+    <div className="min-h-screen bg-gradient-to-r from-[#1e5799] via-[#2989d8] to-[#207cca] text-white flex flex-col font-sans">
+      {/* Same Responsive Navigation with Glass Sidebar & Drawer as Home */}
+      <HomeNav />
 
-      {/* Main Login Area */}
-      <main className="flex-1 flex items-center justify-center p-6">
-        <div className="w-full max-w-md bg-white/20 backdrop-blur-lg border border-white/30 rounded-2xl p-8 shadow-2xl">
-          <h3 className="text-2xl font-medium text-center text-white mb-2">Login</h3>
-          <div className="w-16 h-1 bg-white/40 mx-auto rounded-full mb-6" />
+      {/* Main Content Area matching Home layout */}
+      <div className="flex flex-1 pt-16">
+        <main className="flex-1 md:ml-64 p-4 sm:p-6 md:p-8 lg:p-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] max-w-7xl mx-auto w-full">
+          {/* Clean Static Glass Card */}
+          <div className="w-full max-w-md rounded-2xl p-6 sm:p-8 bg-white/10 backdrop-blur-xl border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.2)]">
+            <header className="mb-6 text-center">
+              <h1 className="text-2xl sm:text-3xl font-semibold tracking-wide mb-2 drop-shadow-sm">
+                Staff Login
+              </h1>
+              <div className="h-0.5 bg-white/30 max-w-[160px] mx-auto" />
+              <p className="text-xs text-blue-100/80 mt-2">
+                Enter your credentials to access your staff portal
+              </p>
+            </header>
 
-          {error && (
-            <div className="mb-6 p-3 bg-rose-500/80 text-white text-sm rounded-lg text-center backdrop-blur-sm">
-              {error}
+            {error && (
+              <div className="mb-5 p-3.5 bg-rose-500/80 border border-rose-300/40 text-white text-xs sm:text-sm rounded-xl text-center backdrop-blur-md shadow-md animate-in fade-in duration-200">
+                {error}
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+              <div>
+                <label className="block text-xs uppercase tracking-wider text-blue-100 font-semibold mb-1.5 flex items-center gap-1.5">
+                  <Mail size={13} className="text-blue-200" />
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  placeholder="example@gmail.com"
+                  className="w-full px-4 py-2.5 rounded-lg bg-white/10 border border-white/25 focus:border-white/50 text-white placeholder-blue-100/50 outline-none transition-all focus:ring-2 focus:ring-white/30 text-sm shadow-inner backdrop-blur-sm"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs uppercase tracking-wider text-blue-100 font-semibold mb-1.5 flex items-center gap-1.5">
+                  <Lock size={13} className="text-blue-200" />
+                  Password
+                </label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  placeholder="••••••••"
+                  className="w-full px-4 py-2.5 rounded-lg bg-white/10 border border-white/25 focus:border-white/50 text-white placeholder-blue-100/50 outline-none transition-all focus:ring-2 focus:ring-white/30 text-sm shadow-inner backdrop-blur-sm"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full mt-3 py-3 bg-[#27ae60] hover:bg-[#219150] text-white font-semibold rounded-lg text-sm transition-all shadow-lg hover:shadow-emerald-500/25 active:scale-[0.99] disabled:opacity-50 cursor-pointer flex items-center justify-center gap-2"
+              >
+                {loading ? (
+                  "Signing in..."
+                ) : (
+                  <>
+                    <span>Sign In</span>
+                    <ArrowRight size={16} />
+                  </>
+                )}
+              </button>
+            </form>
+
+            {/* Sample Credentials Helper Pill */}
+            <div className="mt-6 p-3 rounded-xl bg-white/10 border border-white/15 text-xs text-center text-blue-100/90 backdrop-blur-sm leading-relaxed">
+              <span className="text-white/70 block mb-0.5">Sample Credentials:</span>
+              <span className="font-semibold text-white">example@gmail.com</span> &nbsp;•&nbsp; Password:{" "}
+              <span className="font-semibold text-white">1234</span>
             </div>
-          )}
-
-          <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-            <div>
-              <label className="block text-xs uppercase tracking-wider text-white/90 mb-1.5 font-medium">
-                Email
-              </label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                placeholder="example@gmail.com"
-                className="w-full px-4 py-3 rounded-lg bg-white text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-400 text-sm shadow-sm"
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs uppercase tracking-wider text-white/90 mb-1.5 font-medium">
-                Password
-              </label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                placeholder="••••"
-                className="w-full px-4 py-3 rounded-lg bg-white text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-400 text-sm shadow-sm"
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full mt-2 py-3 bg-[#27ae60] hover:bg-[#219150] text-white font-medium rounded-lg text-base transition-colors shadow-md disabled:opacity-50"
-            >
-              {loading ? "Signing in..." : "Sign In"}
-            </button>
-          </form>
-
-          <p className="mt-6 text-xs text-center text-white/80">
-            Sample login: <span className="font-semibold text-white">example@gmail.com</span> /{" "}
-            <span className="font-semibold text-white">1234</span>
-          </p>
-        </div>
-      </main>
+          </div>
+        </main>
+      </div>
     </div>
   );
 }
